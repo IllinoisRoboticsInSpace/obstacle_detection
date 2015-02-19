@@ -2,6 +2,9 @@
 /** leonfrickensmith@gmail.com **/
 /** IRIS at UIUC 2015 **/
 
+const int maxViewDist = 2500;//millimeters
+const int minViewDist = 470;//millimeters
+
 #include <iostream> //cout
 #include <pthread.h>//pthreads
 #include <string.h>//strcpy
@@ -25,8 +28,8 @@ void gl_displayTexture(char* pTexture, int width, int height, int xStart, int yS
 GLuint gl_rgb_tex;
 
 
-    const int windowX = 1440;
-    const int windowY = 480;
+const int windowX = 1440;
+const int windowY = 480;
 
 using namespace std;
 //csk namespace represents CoordinateSystemKinect
@@ -107,7 +110,7 @@ void* thread_depth(void* arg)
             for(int i = 0; i<pointCount; ++i)
             {
                 int milli = csk::RawDepthToMilli(pDepth[i]);
-                if(milli < 450 || milli > 2000)
+                if(milli < minViewDist || milli > maxViewDist)
                     pDepth[i] = 0;
             }
             /**CREATE CARTESIAN POINT CLOUD**/
