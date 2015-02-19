@@ -79,12 +79,18 @@ void* thread_depth(void* arg)
 
             /**REMOVE INVALID POINTS FROM DEPTH DATA**/
             for(int i = 0; i<pointCount; ++i)
-                if(csk::RawDepthToMilli(pDepth[i]) < 450)
+            {
+                int milli = csk::RawDepthToMilli(pDepth[i]);
+                if(milli < 450 || milli > 2000)
                     pDepth[i] = 0;
+            }
             /**CREATE CARTESIAN POINT CLOUD**/
             for(int y = 0; y<csk::dimY; ++y)
                 for(int x = 0; x<csk::dimX; ++x)
-                    pointCloud[csk::GetCoord(x,y)] = csk::GetCartCoord(x, y, pDepth);
+                {
+                    if(pDepth[csk::GetCoord(x,y)] != 0)//ignore points that are bad
+                        pointCloud[csk::GetCoord(x,y)] = csk::GetCartCoord(x, y, pDepth);
+                }
             /**POINT CLOUD ADJUSTED FOR PITCH AND ROLL**/
             /**NOTE THAT WE CANNOT KNOW YAW (How the kinect is turned in relation to another object)**/
             Mat3f pitchRoll = csk::FindDownMatrix(downDirection);//find the rotation matrix
