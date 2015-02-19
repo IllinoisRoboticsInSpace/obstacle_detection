@@ -1,0 +1,25 @@
+CC=g++
+CFLAGS=-c -Wall
+
+OBJ=obj/
+LIB=lib/
+SRC=src/
+
+#this is called when you call "make"
+all: makeAll
+
+makeAll: obs_det_obj CoordSystemKinect_obj TrigLookup_obj
+	$(CC) -lfreenect main.o CoordSystemKinect.o TrigLookup.o $(LIB)libfreenect.so.0.1 -o obs_det
+
+
+obs_det_obj:
+	$(CC) $(CFLAGS) main.cpp
+
+CoordSystemKinect_obj:
+	$(CC) $(CFLAGS) $(SRC)CoordSystemKinect.cpp
+
+TrigLookup_obj:
+	$(CC) $(CFLAGS) $(SRC)TrigLookup.cpp
+
+clean:
+	rm -f *.o *.a *.tar *.tar.gz cppview_exe
