@@ -1,0 +1,4 @@
+The file libfreenect.so.0.1 is just a link to the libfreenect.so file, which is the library needed for interaction with the kinect.
+The libfreenect.so file is needed at compile time, and the Makefile will search for it.
+On execution time, the program will search for libfreenect.so.0.1, which could just be a renamed libfreenect.so, or a link to it
+except it searches through the Linux LD_LIBRARY_PATH, so the link included in the lib folder is just there for an example

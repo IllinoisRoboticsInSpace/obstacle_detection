@@ -1,0 +1,186 @@
+ if(not depth_used && pDepth != NULL)//make sure we don't take an image with bad accelerometer data
+        {
+            cout << "\nStarting Process.";
+            if(downDirection.z == 0)
+                cout << "\nNo Data From Kinect Accelerometer!";
+
+            const int pointCount = csk::dimX*csk::dimY;
+            Map<float> gradient(Vec2i(80,80));
+            Map<float> height(Vec2i(80,80));
+
+            height.getPoint(Vec2i(0,0)).value = 9;
+            vector<Vec3f> pointCloud;
+            pointCloud.resize(csk::dimX*csk::dimY);//make our pointcloud large enough
+
+            /**REMOVE INVALID POINTS FROM DEPTH DATA**/
+            for(int i = 0; i<pointCount; ++i)
+            {
+                int milli = csk::RawDepthToMilli(pDepth[i]);
+                if(milli < 450 || milli > 2000)
+                    pDepth[i] = 0;
+            }
+            /**CREATE CARTESIAN POINT CLOUD**/
+            for(int y = 0; y<csk::dimY; ++y)
+                for(int x = 0; x<csk::dimX; ++x)
+                {
+                    if(pDepth[csk::GetCoord(x,y)] != 0)//ignore points that are bad
+                        pointCloud[csk::GetCoord(x,y)] = csk::GetCartCoord(x, y, pDepth);
+                }
+            /**POINT CLOUD ADJUSTED FOR PITCH AND ROLL**/
+            /**NOTE THAT WE CANNOT KNOW YAW (How the kinect is turned in relation to another object)**/
+            Mat3f pitchRoll = csk::FindDownMatrix(downDirection);//find the rotation matrix
+            for(int i = 0; i<pointCount; ++i)//rotate the point cloud data appropriatly
+            {
+                pointCloud[i] = pitchRoll*pointCloud[i];
+            }
+            /**POINT CLOUD UNITS ADJUSTED FOR HUMAN VIEWING**/
+            const float unitConvert = 1.0f/50.0f;//half decimeters (50 times larger than a millimeter is half a decimeter)
+            for(int i = 0; i<pointCount; ++i)
+            {
+                pointCloud[i].z *= unitConvert;
+                pointCloud[i].y *= unitConvert;
+                pointCloud[i].x *= unitConvert;
+            }
+            /**CONVERT POINT CLOUD INTO HEIGHT MAP**/
+            for(int i = 0; i<pointCount; ++i)
+            {
+                if(height.getPoint(Vec2i(pointCloud[i].x-40, pointCloud[i].y+40)).value < pointCloud[i].z)
+                    height.getPoint(Vec2i(pointCloud[i].x-40, pointCloud[i].y+40)).value = pointCloud[i].z;
+            }
+            /**REMOVE STRANGE VALUES FROM MAP, PRINT TO A FILE, PAUSE PROGRAM**/
+            height.makeGradient(gradient);
+            gradient.minValue = -1;
+            gradient.maxValue = 9;
+            gradient.nullRep = '-';
+            gradient.toFile("gradientMap.txt");
+            //height.normalizeMap();
+            //height.toFile("heightMap.txt");
+            cout << "\n\tDepth Processed.";
+            depth_used = true;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ if(not depth_used && pDepth != NULL)//make sure we don't take an image with bad accelerometer data
+        {
+            cout << "\nStarting Process...";
+            if(downDirection.z == 0)
+                cout << "\nNo Data From Kinect Accelerometer!";
+
+            const int pointCount = csk::dimX*csk::dimY;
+            cout << "\n" << csk::dimX  <<  " " << csk::dimY;
+            Map<float> gradient(Vec2i(10,10));
+            Map<float> height(Vec2i(10,10));
+
+            height.getPoint(Vec2i(20,20)) = 6;
+
+            height.getPoint(Vec2i(0,0)) = 9;
+            vector<Vec3f> pointCloud;
+            pointCloud.resize(csk::dimX*csk::dimY);//make our pointcloud large enough
+            cout << "\npp";
+            /**REMOVE INVALID POINTS FROM DEPTH DATA**/
+            for(int i = 0; i<pointCount; ++i)
+            {
+                int milli = csk::RawDepthToMilli(pDepth[i]);
+                if(milli < 450 || milli > 2000)
+                    pDepth[i] = 0;
+            }
+            /**CREATE CARTESIAN POINT CLOUD**/
+            for(int y = 0; y<csk::dimY; ++y)
+                for(int x = 0; x<csk::dimX; ++x)
+                {
+                    if(pDepth[csk::GetCoord(x,y)] != 0)//ignore points that are bad
+                        pointCloud[csk::GetCoord(x,y)] = csk::GetCartCoord(x, y, pDepth);
+                }
+            /**POINT CLOUD ADJUSTED FOR PITCH AND ROLL**/
+            /**NOTE THAT WE CANNOT KNOW YAW (How the kinect is turned in relation to another object)**/
+            Mat3f pitchRoll = csk::FindDownMatrix(downDirection);//find the rotation matrix
+            for(int i = 0; i<pointCount; ++i)//rotate the point cloud data appropriatly
+            {
+                pointCloud[i] = pitchRoll*pointCloud[i];
+            }
+                        cout << "\nfda";
+            /**POINT CLOUD UNITS ADJUSTED FOR HUMAN VIEWING**/
+            const float unitConvert = 1.0f/50.0f;//half decimeters 5cm, aka(50 times larger than a millimeter is half a decimeter)
+            for(int i = 0; i<pointCount; ++i)
+            {
+                pointCloud[i].z *= unitConvert;
+                pointCloud[i].y *= unitConvert;
+                pointCloud[i].x *= unitConvert;
+            }
+
+                                //height.getPoint(Vec2i(, pointCloud[500].y)).value = pointCloud[500].z;
+
+                        cout << "\nhas" << pointCloud[500].x << pointCloud[500].y << pointCloud[500].z;
+                        cout << "\nhas";
+                        cout << "\nhas";
+                        cout << "\nhas";
+                        cout << "\nhas";
+                        cout << "\nhas";
+                        cout << "\nhas";
+                        cout << "\nhas";
+                        cout << "\nhas";
+                        cout << "\nhas";
+                        cout << "\nhas";
+            /**CONVERT POINT CLOUD INTO HEIGHT MAP**/
+            for(int i=0; i<pointCount; ++i)
+            {
+                if(height.getPoint(Vec2i(pointCloud[i].x, pointCloud[i].y)).value < pointCloud[i].z)
+                    height.getPoint(Vec2i(pointCloud[i].x, pointCloud[i].y)).value = pointCloud[i].z;
+            }
+
+                        cout << "\nbadddddd";
+                        cout << "\nbadddddd";
+                        cout << "\nbadddddd";
+                        cout << "\nbadddddd";
+                        cout << "\nbadddddd";
+                        cout << "\nbadddddd";
+                        cout << "\nbadddddd";
+                        cout << "\nbadddddd";
+                        cout << "\nbadddddd";
+                        cout << "\nbadddddd";
+                        cout << "\nbadddddd";
+                        cout << "\nbadddddd";
+                        cout << "\nbadddddd";
+                        cout << "\nbadddddd";
+                        cout << "\nbadddddd";
+
+
+
+            /**REMOVE STRANGE VALUES FROM MAP, PRINT TO A FILE, PAUSE PROGRAM**/
+            //height.makeGradient(gradient);
+            //gradient.minValue = -1;
+            //gradient.maxValue = 9;
+            //gradient.nullRep = '-';
+            //gradient.toFile("gradientMap.txt");
+            //height.normalizeMap();
+            height.toFile("heightMap.txt");
+            cout << "\n\tDepth Processed.";
+            //depth_used = true;
+            cout << "\n\tStopping Process...";
+        }
