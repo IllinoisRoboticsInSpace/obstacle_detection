@@ -8,11 +8,11 @@ CFLAGS=-c -Wall -I$(INC)
 
 all: opengl raw
 
-
+#$(LIB)libfreenect.so -- put this just before -o
 
 
 raw: main_raw_obj CoordSystemKinect_obj TrigLookup_obj
-	$(CC) main_raw.o CoordSystemKinect.o TrigLookup.o $(LIB)libfreenect.so -o raw_exe -lfreenect
+	$(CC) main_raw.o CoordSystemKinect.o TrigLookup.o -o raw_exe -lfreenect
 
 main_raw_obj:
 	$(CC) $(CFLAGS) main_raw.cpp
@@ -21,7 +21,7 @@ main_raw_obj:
 
 
 opengl: main_opengl_obj CoordSystemKinect_obj TrigLookup_obj
-	$(CC) main_opengl.o CoordSystemKinect.o TrigLookup.o $(LIB)libfreenect.so -o opengl_exe -lfreenect -lGL -lGLU -lglut
+	$(CC) main_opengl.o CoordSystemKinect.o TrigLookup.o -o opengl_exe -lfreenect -lGL -lGLU -lglut
 
 main_opengl_obj:
 	$(CC) $(CFLAGS) main_opengl.cpp

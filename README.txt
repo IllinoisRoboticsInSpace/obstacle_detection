@@ -16,6 +16,7 @@ make
 #====HELP====#
 #====HELP====#
 
+VERSIONS: libfreenect-dev
 
 #====PROBLEM 1====#
 #====PROBLEM 1====#
