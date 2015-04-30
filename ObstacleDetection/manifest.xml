@@ -1,0 +1,18 @@
+<package>
+  <description brief="ObstacleDetection">
+
+     ObstacleDetection
+
+  </description>
+  <author>leon</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/ObstacleDetection</url>
+  <depend package="roscpp"/>
+  <depend package="sensor_msgs"/>
+  <depend package="pcl_conversions"/>
+  <depend package="pcl_ros"/>
+
+</package>
+
+

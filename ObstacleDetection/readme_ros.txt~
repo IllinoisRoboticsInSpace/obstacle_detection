@@ -1,0 +1,6 @@
+"roscore" in a terminal and leave that terminal open to start ROS.
+"cd" to go to your home directory
+"rosmake ObstacleDetection" to build the project
+"rosrun ObstacleDetection opengl_exe" to run the project
+or
+"rosrun ObstacleDetection simple_exe" to run the project
